@@ -12,7 +12,7 @@ Customizable sidebar widget: displays user's self-guided tour itineraries from U
 
 == Description ==
 
-= Recent posts with thumbnails! =
+= Tour Itineraries with Thumbnails! =
 
 This Wordpress plugin installs a **new sidebar widget** that can display a self-guided tour itineraries from the [Unanchor.com](http://www.unanchor.com/ "Self-Guided Tour Itineraries from Unanchor.com") website. 
 
@@ -23,7 +23,7 @@ Itinerary details are retreived from the Unanchor API and cached in wordpress to
 You can use the provided additional stylesheet, or customize your own.
 
 
-= Active support =
+= Active Support =
 
 This is an official **Unanchor** Wordpress plugin - this means you can contact the team at wp@unanchor.com and we will try to help you resolve any issues with the plugin.
 
