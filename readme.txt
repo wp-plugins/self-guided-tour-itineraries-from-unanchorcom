@@ -65,6 +65,14 @@ The widget has its own control pannel for setting up your unanchor username, the
 
 
 
+== Upgrade Notice ==
+
+= 3.0.1 =
+
+* To upgrade, completely removing the files of the previous version before installing the new version.
+
+
+
 == Changelog ==
 
 = 1.1 =
