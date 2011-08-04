@@ -4,7 +4,7 @@ Plugin Name: Self Guided Tour Itineraries from Unanchor.com
 Plugin URI: http://blog.unanchor.com/2011/08/unanchor-wordpress-plugin-for-writers/
 Description: Displays a list of Self-Guided Tour Itineraries from Unanchor.com. If an unanchor username is provided, it will only return itineraries written by that user.
 Author: Unanchor.com
-Version: 1.1
+Version: 1.2
 Author URI: http://www.unanchor.com/
 */
 
@@ -31,15 +31,17 @@ Author URI: http://www.unanchor.com/
             $defaults['num_display'] = 5;
             $defaults['unanchor_username'] = '';
     
-            update_option("SGTI_widget_options", $defaults );
+            update_option('SGTI_widget_options', $defaults );
 
         }
 
         // Clear cache
         delete_option('SGTI_cache');
 
+        $options = get_option('SGTI_widget_options');
+
         // Regenerate cache of unanchor API call
-        $itineraries = SGTI_get_itineraries();
+        $itineraries = SGTI_get_itineraries( $options['unanchor_username'] );
 
     }
     
@@ -77,7 +79,7 @@ Author URI: http://www.unanchor.com/
     }
 
 
-    function SGTI_get_itineraries() {
+    function SGTI_get_itineraries( $unanchor_username = '') {
 
         // check if we have a cached version, if so, just use that
         if($cache = SGTI_get_from_cache()){
@@ -92,9 +94,8 @@ Author URI: http://www.unanchor.com/
             $ch = curl_init();
 
             // set URL and other appropriate options
-            $widget_options = get_option('SGTI_widget_options');
-            if(!empty( $widget_options['unanchor_username'] )){
-                curl_setopt($ch, CURLOPT_URL, 'http://api.unanchor.com/1.0/itinerary/list.json?username=' . urlencode($widget_options['unanchor_username']));
+            if(!empty( $unanchor_username )){
+                curl_setopt($ch, CURLOPT_URL, 'http://api.unanchor.com/1.0/itinerary/list.json?username=' . urlencode($unanchor_username));
             } else {
                 curl_setopt($ch, CURLOPT_URL, 'http://api.unanchor.com/1.0/itinerary/list.json');
             }
@@ -122,8 +123,21 @@ Author URI: http://www.unanchor.com/
     function SGTI_widget( $args ) {
 
         $options = get_option('SGTI_widget_options');
+
+
+        // if options have been passed in as params, they will overwrite options stored in the database
+        if(isset($args['title'])) {
+            $options['title'] = $args['title'];
+        }
+        if(isset($args['num_display'])) {
+            $options['num_display'] = $args['num_display'];
+
+        }
+        if(isset($args['unanchor_username'])) {
+            $options['unanchor_username'] = $args['unanchor_username'];
+        } 
     
-        $json_object = SGTI_get_itineraries();
+        $json_object = SGTI_get_itineraries( $options['unanchor_username'] );
                     
         echo $before_widget;
         echo "<div id=\"unanchor-itineraries\">\n";
@@ -188,7 +202,9 @@ Author URI: http://www.unanchor.com/
         
     }
     
-
+    function display_SGTI( $options = array() ) {
+       SGTI_widget($options);
+    }
 
 
 

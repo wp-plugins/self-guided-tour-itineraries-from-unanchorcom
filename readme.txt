@@ -14,13 +14,15 @@ Customizable sidebar widget: displays user's self-guided tour itineraries from U
 
 = Tour Itineraries with Thumbnails! =
 
-This Wordpress plugin installs a **new sidebar widget** that can display a self-guided tour itineraries from the [Unanchor.com](http://www.unanchor.com/ "Self-Guided Tour Itineraries from Unanchor.com") website. 
+This Wordpress plugin installs a **new sidebar widget** that can display [self-guided tour itineraries](http://www.unanchor.com/ "Self-Guided Tour Itineraries from Unanchor.com") from the [Unanchor.com](http://www.unanchor.com/ "Self-Guided Tour Itineraries from Unanchor.com") website. 
 
-This plugin provides a widget control panel to control the number of itineraries displayed, the username of the unanchor writer, as well as the title of the widget itself.
+The plugin also provides a widget control panel to control the number of itineraries displayed, the username of the unanchor writer, as well as the title of the widget itself.
 
 Itinerary details are retreived from the Unanchor API and cached in wordpress to maximize speed - the cache is renewed every 24 hours.
 
 You can use the provided additional stylesheet, or customize your own.
+
+If you dont use widgets or sidebars, you can also include the itineraries in the content of any page or post of your blog, by simply using the `<?php display_SGTI() ?>` function.
 
 
 = Active Support =
@@ -34,6 +36,16 @@ This is an official **Unanchor** Wordpress plugin - this means you can contact t
 1. Upload the `self-guided-tour-itineraries-from-unanchorcom` directory and all its contents into the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use the widgets admin page to add the widget to one of your sidebars and configure it
+
+If you don't like the widget or don't use sidebars, you can also include the itineraries in the content of any page or post of your blog, by simply using the `<?php display_SGTI() ?>` function. The same options can be given to this function to override the defaults, for example:
+
+`<?php
+
+$options = array('title' => 'My Itineraries', 'num_display' => 3, 'unanchor_username' => 'jonny');
+
+display_SGTI($options);
+
+?>`
 
 
 == Frequently Asked Questions ==
@@ -77,3 +89,6 @@ The widget has its own control pannel for setting up your unanchor username, the
 
 = 1.1 =
 * Initial release
+
+= 1.2 =
+* Added ability to show itineraries in a template without using a widget
