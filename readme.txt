@@ -65,9 +65,7 @@ Itineraries are cached for 24 hours to increase performance. If you want to make
 
 1. An example of the sidebar widget in action
 
-2. Another example of the recent post list rendering
-
-3. The widget control pannel in Wordpress 2.3
+2. The widget control pannel
 
 
 
