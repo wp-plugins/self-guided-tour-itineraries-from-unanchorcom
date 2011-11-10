@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Self Guided Tour Itineraries from Unanchor.com 
+Plugin Name: Self Guided Tour Itineraries from Unanchor.com
 Plugin URI: http://blog.unanchor.com/2011/08/unanchor-wordpress-plugin-for-writers/
 Description: Displays a list of Self-Guided Tour Itineraries from Unanchor.com. If an unanchor username is provided, it will only return itineraries written by that user.
 Author: Unanchor.com
-Version: 1.2
+Version: 1.2.1
 Author URI: http://www.unanchor.com/
 */
 
@@ -20,17 +20,17 @@ Author URI: http://www.unanchor.com/
             $defaults = array();
             $defaults['title'] = "Unanchor Tour Itineraries";
             $defaults['header_element'] = "h2";
-            
+
             update_option("SGTI_options", $defaults );
         }
-         
+
         if( !get_option("SGTI_widget_options") ) {
 
             $defaults = array();
             $defaults['title'] = "Unanchor Tour Itineraries";
             $defaults['num_display'] = 5;
             $defaults['unanchor_username'] = '';
-    
+
             update_option('SGTI_widget_options', $defaults );
 
         }
@@ -44,12 +44,12 @@ Author URI: http://www.unanchor.com/
         $itineraries = SGTI_get_itineraries( $options['unanchor_username'] );
 
     }
-    
-    
+
+
     function SGTI_load_includes() {
-        
+
         echo '<link rel="stylesheet" type="text/css" href="'.get_option('siteurl').'/wp-content/plugins/self-guided-tour-itineraries-from-unanchorcom/main.css" />';
-    
+
     }
 
 
@@ -106,7 +106,7 @@ Author URI: http://www.unanchor.com/
             $api_json_response = curl_exec($ch);
 
             curl_close($ch);
-            
+
             // update the cache
             update_option('SGTI_cache', array($api_json_response, time()));
 
@@ -135,10 +135,10 @@ Author URI: http://www.unanchor.com/
         }
         if(isset($args['unanchor_username'])) {
             $options['unanchor_username'] = $args['unanchor_username'];
-        } 
-    
+        }
+
         $json_object = SGTI_get_itineraries( $options['unanchor_username'] );
-                    
+
         echo $before_widget;
         echo "<div id=\"unanchor-itineraries\">\n";
         echo "<h2>".$options['title']."</h2>\n";
@@ -156,18 +156,18 @@ Author URI: http://www.unanchor.com/
             }
             $i++;
         }
-                
-        echo '</ul></div><div style="display: none;">powered by <a href="http://www.unanchor.com" title="Self Guided Tour Itineraries">Unanchor.com</a></div>';
-                
+
+        echo '</ul></div><div>powered by <a href="http://www.unanchor.com" title="Self Guided Tour Itineraries">Unanchor.com</a></div>';
+
         echo $after_widget;
-                
+
     }
 
 
     function SGTI_widget_control() {
-    
+
         $options = $new_options = get_option('SGTI_widget_options');
-    
+
         if ( $_POST['SGTI_submit'] ) {
             $options['title'] = strip_tags( stripslashes( $_POST['SGTI_widget_title'] ) );
             $options['num_display'] = strip_tags( stripslashes( $_POST['SGTI_num_display'] ) );
@@ -178,37 +178,37 @@ Author URI: http://www.unanchor.com/
             // Clear cache
             delete_option('SGTI_cache');
         }
-        
+
         $title = attribute_escape($options['title']);
-        
+
         $num_display = attribute_escape( $options['num_display'] );
         $unanchor_username = attribute_escape( $options['unanchor_username'] );
-        
+
     ?>
-         
+
         <p><label for="pages-title"><?php _e('Title:'); ?></label> <input class="widefat" id="SGTI_widget_title" name="SGTI_widget_title" type="text" value="<?php echo $title; ?>" /></p>
         <p><label for="pages-title"><?php _e('Unanchor Username:'); ?></label> <input class="widefat" id="SGTI_username" name="SGTI_username" type="text" value="<?php echo $unanchor_username; ?>" /></p>
         <p><label for="pages-title"><?php _e('No. of Itineraries to Show:'); ?></label> <input class="widefat" id="SGTI_num_display" name="SGTI_num_display" type="text" value="<?php echo $num_display; ?>" /></p>
-        
+
         <input type="hidden" id="SGTI_submit" name="SGTI_submit" value="1" />
     <?php
     }
-    
+
     function SGTI_load_widget() {
-    
+
         $widget_ops = array('classname' => 'unanchor_self_guided_tour_itineraries', 'description' => __( "Include Unanchor Itineraries in your sidebar") );
         wp_register_sidebar_widget('unanchor_self_guided_tour_itineraries', __('Unanchor Itineraries'), 'SGTI_widget', $widget_ops);
         wp_register_widget_control('unanchor_self_guided_tour_itineraries', __('Unanchor Itinerary display options'), 'SGTI_widget_control' );
-        
+
     }
-    
+
     function display_SGTI( $options = array() ) {
        SGTI_widget($options);
     }
 
 
 
-    
+
 /******* Hooks and Filters ************/
 register_activation_hook( __FILE__, 'SGTI_activate' );
 
