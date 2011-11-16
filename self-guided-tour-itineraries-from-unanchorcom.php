@@ -157,7 +157,7 @@ Author URI: http://www.unanchor.com/
             $i++;
         }
 
-        echo '</ul></div><div>powered by <a href="http://www.unanchor.com" title="Self Guided Tour Itineraries">Unanchor.com</a></div>';
+        echo '</ul></div>';
 
         echo $after_widget;
 
